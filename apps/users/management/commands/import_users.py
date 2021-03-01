@@ -11,7 +11,7 @@ class Command(BaseCommand):
         response = requests.get(url=URL)
 
         for user in response.json():
-            get_user_model().objects.get_or_create(
+            get_user_model().objects.update_or_create(
                 id=user['id'],
                 defaults={
                     'username': user['email'].split('@')[0],

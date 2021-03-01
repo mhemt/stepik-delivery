@@ -11,7 +11,7 @@ class Command(BaseCommand):
         response = requests.get(url=URL)
 
         for box_item in response.json():
-            Item.objects.get_or_create(
+            Item.objects.update_or_create(
                 id=box_item['id'],
                 defaults={
                     'title': box_item['title'],

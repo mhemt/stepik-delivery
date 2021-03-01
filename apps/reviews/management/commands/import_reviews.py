@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
         for review in response.json():
             user = get_user_model().objects.get(id=review['author'])
-            Review.objects.get_or_create(
+            Review.objects.update_or_create(
                 id=review['id'],
                 defaults={
                     'author': user,
