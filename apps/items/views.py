@@ -14,5 +14,5 @@ def get_items_view(request, pk):
         'description': box_item.description,
         'image': box_item.image.url,
         'weight': box_item.weight,
-        'price': box_item.price,
+        'price': str(box_item.price),
     })

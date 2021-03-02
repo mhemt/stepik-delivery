@@ -112,5 +112,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
+MEDIA_URL = 'http://localhost:8000/'
 
 AUTH_USER_MODEL = 'users.User'
