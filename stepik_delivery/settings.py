@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
+    'drf_yasg',
     'apps.carts',
     'apps.items',
     'apps.reviews',
@@ -113,6 +114,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
-MEDIA_URL = 'http://localhost:8000/'
 
 AUTH_USER_MODEL = 'users.User'
