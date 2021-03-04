@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('api/v1/', include(apipatterns)),
     path('api/v1/docs/', schema_view.with_ui('swagger', cache_timeout=0)),
+    path('users/', include('apps.users.urls')),
 ]
 
 if settings.DEBUG:
