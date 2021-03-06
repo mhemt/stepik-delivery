@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import Sum, F, DecimalField
 
 from apps.items.models import Item
 
@@ -9,7 +10,18 @@ class Cart(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='carts')
 
     def __str__(self):
-        return self.items
+        return f'{self.user.username}"s cart'
+
+    @property
+    def total_cost(self):
+        total_cost = self.items.aggregate(
+            total_cost=Sum(
+                F('cartitem__quantity') * F('cartitem__price'),
+                output_field=DecimalField(max_digits=8, decimal_places=2)
+            )
+        )['total_cost']
+
+        return str(total_cost)
 
 
 class CartItem(models.Model):
