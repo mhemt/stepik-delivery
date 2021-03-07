@@ -11,7 +11,7 @@ from apps.items.serializers import ItemSerializer
 class ItemViewSet(ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    http_method_names = ['get']
     pagination_class = ItemPaginator
+    http_method_names = ['get']
     filter_backends = (DjangoFilterBackend, OrderingFilter)
     filter_class = ItemFilter

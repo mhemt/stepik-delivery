@@ -1,32 +1,32 @@
-from rest_framework import mixins
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from apps.carts.models import Cart, CartItem
 from apps.carts.paginators import CartItemPaginator
-from apps.carts.serializers import CartSerializer, CartItemSerializer
+from apps.carts.serializers import CartSerializer, CartItemSerializer, PostItemToCartSerializer
 
 
-class CartViewSet(mixins.ListModelMixin, GenericViewSet):
+class CartDetailView(RetrieveAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
-    http_method_names = ['get']
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #     return self.queryset.filter(user_id=self.request.user.id)
+    def get_object(self):
+        return self.queryset.get(user_id=self.request.user.id)
 
 
 class CartItemViewSet(ModelViewSet):
     queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
     pagination_class = CartItemPaginator
+    permission_classes = [IsAuthenticated]
 
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = [IsAuthenticated]
-    #
-    # def get_queryset(self):
-    #     return self.queryset.filter(user_id=self.request.user.id)
+    def get_queryset(self):
+        cart = Cart.objects.get(user_id=self.request.user.id)
+        return self.queryset.filter(cart_id=cart.id)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PostItemToCartSerializer
+        else:
+            return CartItemSerializer

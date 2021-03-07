@@ -7,13 +7,11 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
-from apps.carts.views import CartViewSet, CartItemViewSet
+from apps.carts.views import CartItemViewSet
 from apps.items.views import ItemViewSet
-
 
 router = DefaultRouter()
 router.register('items', ItemViewSet, basename='item')
-router.register('carts', CartViewSet, basename='cart')
 router.register('carts/items', CartItemViewSet, basename='cart_item')
 apipatterns = router.urls
 
@@ -31,6 +29,7 @@ urlpatterns = [
     path('', include(apipatterns)),
     path('admin/', admin.site.urls, name='admin'),
     path('api/v1/docs/', schema_view.with_ui('swagger', cache_timeout=0)),
+    path('carts/', include('apps.carts.urls')),
     path('users/', include('apps.users.urls')),
 ]
 
