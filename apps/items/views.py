@@ -1,18 +1,16 @@
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from apps.items.filters import ItemFilter
 from apps.items.models import Item
+from apps.items.paginators import ItemPaginator
+from apps.items.serializers import ItemSerializer
 
 
-@api_view(['GET'])
-def get_items_view(request, pk):
-    box_item = get_object_or_404(Item, id=pk)
-    return Response({
-        'id': box_item.id,
-        'title': box_item.title,
-        'description': box_item.description,
-        'image': box_item.image.url,
-        'weight': box_item.weight,
-        'price': str(box_item.price),
-    })
+class ItemViewSet(ReadOnlyModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    pagination_class = ItemPaginator
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
+    filter_class = ItemFilter

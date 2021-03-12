@@ -18,6 +18,14 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -26,7 +34,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
+    'drf_yasg',
+    'apps.carts',
     'apps.items',
     'apps.reviews',
     'apps.users',
@@ -112,6 +124,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
-MEDIA_URL = 'http://localhost:8000/'
 
 AUTH_USER_MODEL = 'users.User'
