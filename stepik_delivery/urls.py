@@ -5,15 +5,7 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework.routers import DefaultRouter
 
-from apps.carts.views import CartItemViewSet
-from apps.items.views import ItemViewSet
-
-router = DefaultRouter()
-router.register('items', ItemViewSet, basename='item')
-router.register('carts/items', CartItemViewSet, basename='cart_item')
-apipatterns = router.urls
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -24,13 +16,16 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+apipatterns = [
+    path('items/', include('apps.items.urls')),
+    path('users/', include('apps.users.urls')),
+    path('carts/', include('apps.carts.urls')),
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0)),
+]
 
 urlpatterns = [
-    path('', include(apipatterns)),
     path('admin/', admin.site.urls, name='admin'),
-    path('api/v1/docs/', schema_view.with_ui('swagger', cache_timeout=0)),
-    path('carts/', include('apps.carts.urls')),
-    path('users/', include('apps.users.urls')),
+    path('api/v1/', include(apipatterns)),
 ]
 
 if settings.DEBUG:

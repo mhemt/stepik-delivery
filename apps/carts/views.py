@@ -8,22 +8,19 @@ from apps.carts.serializers import CartSerializer, CartItemSerializer, PostItemT
 
 
 class CartDetailView(RetrieveAPIView):
-    queryset = Cart.objects.all()
     serializer_class = CartSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        return self.queryset.get(user_id=self.request.user.id)
+        return self.request.user.cart
 
 
 class CartItemViewSet(ModelViewSet):
-    queryset = CartItem.objects.all()
     pagination_class = CartItemPaginator
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        cart = Cart.objects.get(user_id=self.request.user.id)
-        return self.queryset.filter(cart_id=cart.id)
+        return CartItem.objects.filter(cart__user_id=self.request.user.id)
 
     def get_serializer_class(self):
         if self.action == 'create':

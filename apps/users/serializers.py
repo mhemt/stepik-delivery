@@ -4,6 +4,17 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'middle_name', 'phone', 'address']
+        extra_kwargs = {
+            'username': {'required': False},
+            'middle_name': {'required': False},
+            'phone': {'required': False},
+            'address': {'required': False},
+        }
+
     def create(self, validated_data):
         username = validated_data['email'].split('@')[0]
         user = get_user_model().objects.create(
@@ -17,24 +28,4 @@ class UserSerializer(serializers.ModelSerializer):
             address=validated_data['address'],
         )
 
-        user.save()
         return user
-
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'id',
-            'username',
-            'email',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'phone',
-            'address',
-        ]
-        extra_kwargs = {
-            'username': {'required': False},
-            'middle_name': {'required': False},
-            'phone': {'required': False},
-            'address': {'required': False},
-        }
