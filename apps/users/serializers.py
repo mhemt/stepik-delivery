@@ -8,8 +8,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'middle_name', 'phone', 'address']
+        read_only_fields = ['username']
         extra_kwargs = {
-            'username': {'required': False},
             'middle_name': {'required': False},
             'phone': {'required': False},
             'address': {'required': False},

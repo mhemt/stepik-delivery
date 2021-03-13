@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import models
 
 from apps.carts.models import Cart
@@ -11,5 +12,8 @@ class User(AbstractUser):
 
     @property
     def cart(self):
-        cart, _ = Cart.objects.get_or_create(user=self)
+        try:
+            cart, _ = Cart.objects.get_or_create(user=self)
+        except MultipleObjectsReturned:
+            cart = Cart.objects.filter(user=self).last()
         return cart

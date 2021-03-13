@@ -13,7 +13,7 @@ class Order(models.Model):
         PROCESSED = 'processed', _('в обработке')
         CANCELLED = 'cancelled', _('отменен')
 
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     delivery_at = models.DateTimeField()
     recipient = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='orders')
     address = models.CharField(max_length=300)

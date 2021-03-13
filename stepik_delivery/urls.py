@@ -17,9 +17,11 @@ schema_view = get_schema_view(
 )
 
 apipatterns = [
-    path('items/', include('apps.items.urls')),
-    path('users/', include('apps.users.urls')),
     path('carts/', include('apps.carts.urls')),
+    path('items/', include('apps.items.urls')),
+    path('orders/', include('apps.orders.urls')),
+    path('reviews/', include('apps.reviews.urls')),
+    path('users/', include('apps.users.urls')),
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0)),
 ]
 
