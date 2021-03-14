@@ -6,7 +6,7 @@ from apps.reviews.paginators import ReviewPaginator
 from apps.reviews.serializers import ReviewSerializer
 
 
-class ReviewView(ListCreateAPIView):
+class ReviewListCreateView(ListCreateAPIView):
     serializer_class = ReviewSerializer
     pagination_class = ReviewPaginator
     permission_classes = [IsAuthenticated]
