@@ -16,4 +16,6 @@ class User(AbstractUser):
             cart, _ = Cart.objects.get_or_create(user=self)
         except MultipleObjectsReturned:
             cart = Cart.objects.filter(user=self).last()
+        if cart.orders.exists():
+            cart = Cart.objects.create(user=self)
         return cart

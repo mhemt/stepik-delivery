@@ -19,5 +19,4 @@ class ReviewSerializer(serializers.ModelSerializer):
         return Review.objects.create(
             author=author,
             text=text,
-            status=Review.Status.MODERATION,
         )

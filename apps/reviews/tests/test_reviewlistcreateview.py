@@ -1,5 +1,4 @@
-import random
-
+from django.forms import model_to_dict
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
@@ -43,6 +42,7 @@ class ReviewViewSetCreateTestCase(APITestCase):
                 **self.review_data,
                 'author': self.user_data,
                 'status': 'moderation',
+                'published_at': None,
             },
             {
                 'author': {
@@ -55,18 +55,17 @@ class ReviewViewSetCreateTestCase(APITestCase):
                 },
                 'status': response.data['status'],
                 'text': response.data['text'],
+                'published_at': response.data['published_at'],
             },
         )
         self.assertEqual(
+            model_to_dict(review),
             {
+                'id': 1,
                 **self.review_data,
-                'author': self.user,
+                'author': self.user.id,
                 'status': 'moderation',
-            },
-            {
-                'author': review.author,
-                'status': review.status,
-                'text': review.text,
+                'published_at': None,
             },
         )
 
@@ -84,7 +83,7 @@ class ReviewViewSetListTestCase(APITestCase):
         self.reviews = [
             Review.objects.create(
                 text=f'test_text{i}',
-                status=random.choice(Review.Status.values),
+                status=Review.Status.PUBLISHED,
                 author=self.user,
             ) for i in range(10)
         ]
@@ -107,7 +106,7 @@ class ReviewViewSetListTestCase(APITestCase):
         [self.assertEqual(
             {
                 'id': data['id'],
-                'author': dict(data['author']),
+                'author': data['author'],
                 'status': data['status'],
                 'text': data['text'],
                 'created_at': data['created_at'],

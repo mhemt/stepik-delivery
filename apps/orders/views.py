@@ -4,7 +4,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.orders.models import Order
 from apps.orders.paginators import OrderPaginator
-from apps.orders.serializers import OrderSerializer, PostOrderSerializer
+from apps.orders.serializers import OrderSerializer, CreateOrderSerializer
 
 
 class OrderViewSet(mixins.CreateModelMixin,
@@ -16,10 +16,10 @@ class OrderViewSet(mixins.CreateModelMixin,
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(cart=self.request.user.cart)
+        return Order.objects.filter(recipient=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
-            return PostOrderSerializer
+            return CreateOrderSerializer
         else:
             return OrderSerializer
