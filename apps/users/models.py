@@ -13,9 +13,9 @@ class User(AbstractUser):
     @property
     def cart(self):
         try:
-            cart, _ = Cart.objects.get_or_create(user=self)
+            cart, _ = Cart.objects.get_or_create(user=self).prefetch_related('cart_items')
         except MultipleObjectsReturned:
-            cart = Cart.objects.filter(user=self).last()
+            cart = Cart.objects.prefetch_related('cart_items').filter(user=self).last()
         if cart.orders.exists():
-            cart = Cart.objects.create(user=self)
+            cart = Cart.objects.create(user=self).prefetch_related('cart_items')
         return cart

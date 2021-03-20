@@ -1,17 +1,15 @@
 from rest_framework import serializers
 from rest_framework.fields import CharField, DateTimeField
 
-from apps.carts.serializers import CartSerializer
 from apps.orders.models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    cart = CartSerializer(read_only=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'cart', 'status', 'recipient', 'total_cost', 'address', 'delivery_at', 'created_at']
-        read_only_fields = ['recipient', 'cart', 'total_cost', 'created_at']
+        fields = ['id', 'cart', 'status', 'total_cost', 'address', 'delivery_at', 'created_at']
+        read_only_fields = ['cart', 'total_cost', 'created_at']
         extra_kwargs = {
             'status': {'required': False},
             'address': {'required': False},

@@ -20,7 +20,7 @@ class CartItemViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return CartItem.objects.filter(cart=self.request.user.cart)
+        return CartItem.objects.select_related('item', 'cart').filter(cart=self.request.user.cart)
 
     def get_serializer_class(self):
         if self.action == 'create':

@@ -16,7 +16,7 @@ class OrderViewSet(mixins.CreateModelMixin,
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(recipient=self.request.user)
+        return Order.objects.select_related('cart').filter(recipient=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':
