@@ -38,25 +38,20 @@ class ReviewViewSetCreateTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(
+            response.data,
             {
+                'id': 1,
                 **self.review_data,
-                'author': self.user_data,
+                'author': {
+                    'id': 1,
+                    'username': '',
+                    **self.user_data,
+                },
                 'status': 'moderation',
+                'created_at': review.created_at.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
                 'published_at': None,
             },
-            {
-                'author': {
-                    'email': response.data['author']['email'],
-                    'first_name': response.data['author']['first_name'],
-                    'last_name': response.data['author']['last_name'],
-                    'middle_name': response.data['author']['middle_name'],
-                    'phone': response.data['author']['phone'],
-                    'address': response.data['author']['address'],
-                },
-                'status': response.data['status'],
-                'text': response.data['text'],
-                'published_at': response.data['published_at'],
-            },
+
         )
         self.assertEqual(
             model_to_dict(review),
@@ -104,14 +99,7 @@ class ReviewViewSetListTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         [self.assertEqual(
-            {
-                'id': data['id'],
-                'author': data['author'],
-                'status': data['status'],
-                'text': data['text'],
-                'created_at': data['created_at'],
-                'published_at': data['published_at'],
-            },
+            data,
             {
                 'id': review.id,
                 'author': {
@@ -131,14 +119,7 @@ class ReviewViewSetListTestCase(APITestCase):
             },
         ) for data, review in zip(response.data, self.reviews)]
         [self.assertEqual(
-            {
-                'id': data['id'],
-                'author': dict(data['author']),
-                'status': data['status'],
-                'text': data['text'],
-                'created_at': data['created_at'],
-                'published_at': data['published_at'],
-            },
+            data,
             {
                 'id': review.id,
                 'author': {

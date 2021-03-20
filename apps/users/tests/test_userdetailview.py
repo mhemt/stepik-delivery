@@ -88,15 +88,12 @@ class UserDetailViewUpdateTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            self.user_new_data,
             {
-                'email': response.data['email'],
-                'first_name': response.data['first_name'],
-                'last_name': response.data['last_name'],
-                'middle_name': response.data['middle_name'],
-                'phone': response.data['phone'],
-                'address': response.data['address'],
+                'id': 1,
+                'username': '',
+                **self.user_new_data,
             },
+            response.data,
         )
         self.assertEqual(
             self.user_new_data,
@@ -117,15 +114,12 @@ class UserDetailViewUpdateTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            self.user_new_data,
             {
-                'email': response.data['email'],
-                'first_name': response.data['first_name'],
-                'last_name': response.data['last_name'],
-                'middle_name': response.data['middle_name'],
-                'phone': response.data['phone'],
-                'address': response.data['address'],
+                'id': 1,
+                'username': '',
+                **self.user_new_data,
             },
+            response.data,
         )
         self.assertEqual(
             self.user_new_data,
