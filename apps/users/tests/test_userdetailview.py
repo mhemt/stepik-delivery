@@ -3,12 +3,10 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from apps.users.models import User
-
 
 class UserDetailViewRetrieveTestCase(APITestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create(
+        self.user = get_user_model().objects.create(
             email='test@example.com',
             first_name='test_first_name',
             last_name='test_last_name',
@@ -50,7 +48,7 @@ class UserDetailViewRetrieveTestCase(APITestCase):
 
 class UserDetailViewUpdateTestCase(APITestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create(
+        self.user = get_user_model().objects.create(
             email='test@example.com',
             first_name='test_first_name',
             last_name='test_last_name',

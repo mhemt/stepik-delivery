@@ -7,13 +7,13 @@ from apps.items.serializers import ItemSerializer
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    item = ItemSerializer()
-    total_price = DecimalField(max_digits=8, decimal_places=2)
+    item = ItemSerializer(read_only=True)
+    total_price = DecimalField(max_digits=8, decimal_places=2, read_only=True)
 
     class Meta:
         model = CartItem
         fields = ['id', 'item', 'item_id', 'quantity', 'price', 'total_price']
-        read_only_fields = ['item', 'price', 'total_price']
+        read_only_fields = ['item', 'item_id', 'price', 'total_price']
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -26,6 +26,7 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ['items']
 
 
+# TODO: fix wrong response
 class PostItemToCartSerializer(serializers.Serializer):
     item_id = IntegerField()
     quantity = IntegerField()
