@@ -27,7 +27,7 @@ class ReviewViewSetCreateTestCase(APITestCase):
         }
 
     def test_unauthorized(self):
-        response = self.client.get(self.url)
+        response = self.client.post(self.url, data=self.review_data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data, {'detail': 'Authentication credentials were not provided.'})
 

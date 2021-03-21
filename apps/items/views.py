@@ -24,7 +24,6 @@ class ItemViewSet(ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         cached_response = cache.get(ITEMS_CACHE_KEY)
-        print('cached response', cached_response)
         if cached_response:
             return Response(json.loads(cached_response))
 
@@ -34,5 +33,4 @@ class ItemViewSet(ReadOnlyModelViewSet):
             value=json.dumps(response.data),
             timeout=ITEMS_CACHE_TTL,
         )
-        print('cache set')
         return response

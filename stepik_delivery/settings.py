@@ -19,7 +19,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': '127.0.0.1:11211',
-    }
+    },
 }
 
 LOGGING = {
@@ -48,12 +48,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
+        'rest_framework.throttling.UserRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '60/minute',
-        'post_order': '1/minute'
-    }
+        'user': '600/minute',
+        'post_order': '1/minute',
+    },
 }
 
 INSTALLED_APPS = [
