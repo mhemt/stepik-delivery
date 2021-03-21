@@ -31,8 +31,7 @@ class PostItemToCartSerializer(serializers.Serializer):
     quantity = IntegerField()
 
     def create(self, validated_data):
-        user_id = self.context['request'].user.id
-        cart = Cart.objects.get(user_id=user_id)
+        cart = self.context['request'].user.cart
         item = Item.objects.get(id=validated_data['item_id'])
         price = item.price
         quantity = validated_data['quantity']
