@@ -5,6 +5,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.orders.models import Order
 from apps.orders.paginators import OrderPaginator
 from apps.orders.serializers import OrderSerializer, CreateOrderSerializer
+from apps.orders.throttling import PostOrderRateThrottle
 
 
 class OrderViewSet(mixins.CreateModelMixin,
@@ -14,9 +15,10 @@ class OrderViewSet(mixins.CreateModelMixin,
                    GenericViewSet):
     pagination_class = OrderPaginator
     permission_classes = [IsAuthenticated]
+    throttling_classes = [PostOrderRateThrottle]
 
     def get_queryset(self):
-        return Order.objects.filter(recipient=self.request.user)
+        return Order.objects.select_related('cart').filter(recipient=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'create':

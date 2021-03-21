@@ -24,15 +24,12 @@ class CreateUserViewTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(
-            self.user_data,
             {
-                'email': response.data['email'],
-                'first_name': response.data['first_name'],
-                'last_name': response.data['last_name'],
-                'middle_name': response.data['middle_name'],
-                'phone': response.data['phone'],
-                'address': response.data['address'],
+                'id': 1,
+                'username': 'test',
+                **self.user_data,
             },
+            response.data,
         )
         self.assertEqual(
             self.user_data,

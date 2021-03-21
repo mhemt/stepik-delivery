@@ -12,4 +12,4 @@ class ReviewListCreateView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Review.objects.filter(status=Review.Status.PUBLISHED)
+        return Review.objects.select_related('author').filter(status=Review.Status.PUBLISHED)

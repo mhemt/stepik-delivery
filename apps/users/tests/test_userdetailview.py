@@ -3,12 +3,10 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from apps.users.models import User
-
 
 class UserDetailViewRetrieveTestCase(APITestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create(
+        self.user = get_user_model().objects.create(
             email='test@example.com',
             first_name='test_first_name',
             last_name='test_last_name',
@@ -50,7 +48,7 @@ class UserDetailViewRetrieveTestCase(APITestCase):
 
 class UserDetailViewUpdateTestCase(APITestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create(
+        self.user = get_user_model().objects.create(
             email='test@example.com',
             first_name='test_first_name',
             last_name='test_last_name',
@@ -88,15 +86,12 @@ class UserDetailViewUpdateTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            self.user_new_data,
             {
-                'email': response.data['email'],
-                'first_name': response.data['first_name'],
-                'last_name': response.data['last_name'],
-                'middle_name': response.data['middle_name'],
-                'phone': response.data['phone'],
-                'address': response.data['address'],
+                'id': 1,
+                'username': '',
+                **self.user_new_data,
             },
+            response.data,
         )
         self.assertEqual(
             self.user_new_data,
@@ -117,15 +112,12 @@ class UserDetailViewUpdateTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            self.user_new_data,
             {
-                'email': response.data['email'],
-                'first_name': response.data['first_name'],
-                'last_name': response.data['last_name'],
-                'middle_name': response.data['middle_name'],
-                'phone': response.data['phone'],
-                'address': response.data['address'],
+                'id': 1,
+                'username': '',
+                **self.user_new_data,
             },
+            response.data,
         )
         self.assertEqual(
             self.user_new_data,
